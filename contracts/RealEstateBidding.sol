@@ -2,7 +2,9 @@
 
 pragma solidity ^0.6.0;
 
-contract RealEstateBidding {
+import "./ERC721.sol";
+
+contract RealEstateBidding is ERC721 {
     address public realtor;
     uint public propertyID;
     uint public highestBid;
@@ -25,12 +27,18 @@ contract RealEstateBidding {
     
     CounterStruct internal counters;
     
-    constructor() public payable {
+    constructor() ERC721("RealEstateBidding","REB") public payable {
         realtor = msg.sender;
         counters.setProperty = 0;
         counters.bidderCount = 0;
         highestBid = 0;
         beginBidding = false;
+    }
+
+    function mint(uint propID) public {
+ 
+        _mint(msg.sender, propID);
+        
     }
     
     modifier onlyRealtor {
